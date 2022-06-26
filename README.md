@@ -1,5 +1,6 @@
-# Getting Started with Create React App
+# Cream greetings
 
+A novel greeting randomizer using Google Docs API to get the list of greetings from a Google Doc.
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
