@@ -37,7 +37,6 @@ function App() {
       const atoken = gapi.auth.getToken().access_token;
       const data = await axios.get(`https://docs.googleapis.com/v1/documents/1F3gsZxBq1aztYDNZgH6MZWmRD2luPmb5WdaJVDwcF9M`, 
         { headers: { "Authorization" : `Bearer  ${atoken}` }}).then(res => res.data);
-      console.log(data);
       data.body.content.map((row, index) => { 
         if(index !== 0) {
           const greetingText = row.paragraph.elements[0].textRun.content;
@@ -45,7 +44,6 @@ function App() {
             greetings.push(greetingText.replace(/(\n)/, ""));
         } 
       });
-      console.log(greetings);
       setGreetingList(greetings);
     } catch (ex) {
       console.error(ex);

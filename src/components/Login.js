@@ -8,7 +8,7 @@ const Login = (props) => {
     };
     
     const onFailure = (response) => {
-        console.log("LOGIN SUCCESSUL! Response: ", response);
+        console.log("LOGIN FAILURE! Response: ", response);
     };
 
     return(
