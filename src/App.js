@@ -10,7 +10,7 @@ import axios from 'axios';
 
 const CLIENT_ID = "763523850373-1tddmg1gmu1mc6imepsrqmui72pga934.apps.googleusercontent.com";
 const API_KEY = "AIzaSyCWJPcv9W87PFGe093DCz6mCQ7VVOSANnM";
-const SCOPES = "https://www.googleapis.com/auth/documents";
+const SCOPES = "https://www.googleapis.com/auth/documents.readonly";
 
 
 
