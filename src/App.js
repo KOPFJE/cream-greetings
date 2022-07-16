@@ -43,7 +43,6 @@ function App() {
       const atoken = gapi.auth.getToken().access_token;
       const data = await axios.get(`https://docs.googleapis.com/v1/documents/1F3gsZxBq1aztYDNZgH6MZWmRD2luPmb5WdaJVDwcF9M`, 
         { headers: { "Authorization" : `Bearer  ${atoken}` }}).then(res => res.data);
-      console.log(data);
       data.body.content.map((row, index) => { 
         if(index !== 0) {
           let rowText = row.paragraph.elements[0].textRun.content;
@@ -96,13 +95,13 @@ function App() {
     const greet = greetingList[Math.floor(Math.random()  * greetingList.length)];
     const adjective = adjectivesList[Math.floor(Math.random()  * adjectivesList.length)];
     const object = objectsList[Math.floor(Math.random()  * objectsList.length)];
-    const greeting = `${greet} you ${adjective} ${object}!`;
-    setGreeting(greeting);
+    const givenGreeting = `${greet} you ${adjective} ${object}!`;
+    setGreeting(givenGreeting);
   }
 
   const refreshGreetings = async (e) => {
     e.preventDefault();
-    await getFile().then(setIsRefreshedFlag(true)).finally(getGreeting());
+    await getFile().then(setIsRefreshedFlag(true));
   }
 
   return (
