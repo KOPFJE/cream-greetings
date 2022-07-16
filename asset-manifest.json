@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/cream-greetings/static/css/main.be4787ea.css",
-    "main.js": "/cream-greetings/static/js/main.84cf69f8.js",
+    "main.js": "/cream-greetings/static/js/main.bd4f6d56.js",
     "index.html": "/cream-greetings/index.html",
     "main.be4787ea.css.map": "/cream-greetings/static/css/main.be4787ea.css.map",
-    "main.84cf69f8.js.map": "/cream-greetings/static/js/main.84cf69f8.js.map"
+    "main.bd4f6d56.js.map": "/cream-greetings/static/js/main.bd4f6d56.js.map"
   },
   "entrypoints": [
     "static/css/main.be4787ea.css",
-    "static/js/main.84cf69f8.js"
+    "static/js/main.bd4f6d56.js"
   ]
 }
