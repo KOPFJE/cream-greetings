@@ -16,7 +16,9 @@ const SCOPES = "https://www.googleapis.com/auth/documents.readonly";
 
 function App() { 
   const [greetingList, setGreetingList] = useState([]);
-  const [greeting, setGreeting] = useState("Hello you creamy individuals!");
+  const [adjectivesList, setAdjectivesList] = useState([]);
+  const [objectsList, setObjectsList] = useState([]);
+  const [greeting, setGreeting] = useState("");
 
   useEffect(() => {
     const start = () => {
@@ -32,19 +34,53 @@ function App() {
 
 
   const getFile = async () => {
+    let isWhichHeading = 0;
     try {
       const greetings = [];
+      const adjectives = [];
+      const objects = [];
       const atoken = gapi.auth.getToken().access_token;
       const data = await axios.get(`https://docs.googleapis.com/v1/documents/1F3gsZxBq1aztYDNZgH6MZWmRD2luPmb5WdaJVDwcF9M`, 
         { headers: { "Authorization" : `Bearer  ${atoken}` }}).then(res => res.data);
+      console.log(data);
       data.body.content.map((row, index) => { 
         if(index !== 0) {
-          const greetingText = row.paragraph.elements[0].textRun.content;
-          if(greetingText !== "\n" && greetingText !== "")
-            greetings.push(greetingText.replace(/(\n)/, ""));
+          let rowText = row.paragraph.elements[0].textRun.content;
+          if(rowText !== "\n" && rowText !== "") {
+            rowText = rowText.replace(/(\n)/, "");
+            if(isWhichHeading === 1) {
+              rowText.split("|").map(greeting => {
+                greetings.push(greeting);
+              });
+              isWhichHeading = 0;
+            }
+            if(isWhichHeading === 2) {
+              rowText.split("|").map(adjective => {
+                adjectives.push(adjective);
+              });
+              isWhichHeading = 0;
+            }
+            if(isWhichHeading === 3) {
+              rowText.split("|").map(object => {
+                objects.push(object);
+              });
+              isWhichHeading = 0;
+            }
+            if(rowText === "Greetings") {
+              isWhichHeading = 1;
+            }
+            if(rowText === "Adjectives") {
+              isWhichHeading = 2;
+            }
+            if(rowText === "Objects") {
+              isWhichHeading = 3;
+            }
+          }
         } 
       });
       setGreetingList(greetings);
+      setAdjectivesList(adjectives);
+      setObjectsList(objects);
     } catch (ex) {
       console.error(ex);
     }
@@ -52,14 +88,16 @@ function App() {
 
   const getGreeting = (e) => {
     e.preventDefault();
-    const greeting = greetingList[Math.floor(Math.random()  * greetingList.length)];
+    const greet = greetingList[Math.floor(Math.random()  * greetingList.length)];
+    const adjective = adjectivesList[Math.floor(Math.random()  * adjectivesList.length)];
+    const object = objectsList[Math.floor(Math.random()  * objectsList.length)];
+    const greeting = `${greet} you ${adjective} ${object}!`;
     setGreeting(greeting);
   }
 
   const refreshGreetings = async (e) => {
     e.preventDefault();
     await getFile();
-    console.log("Painoitkin tästä.");
   }
 
   return (
