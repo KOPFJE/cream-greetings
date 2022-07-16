@@ -98,6 +98,7 @@ function App() {
   const refreshGreetings = async (e) => {
     e.preventDefault();
     await getFile();
+    getGreeting();
   }
 
   return (
