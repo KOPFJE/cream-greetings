@@ -19,6 +19,7 @@ function App() {
   const [adjectivesList, setAdjectivesList] = useState([]);
   const [objectsList, setObjectsList] = useState([]);
   const [greeting, setGreeting] = useState("");
+  const [isRefreshedFlag, setIsRefreshedFlag] = useState(false);
 
   useEffect(() => {
     const start = () => {
@@ -101,8 +102,7 @@ function App() {
 
   const refreshGreetings = async (e) => {
     e.preventDefault();
-    await getFile();
-    getGreeting();
+    await getFile().then(setIsRefreshedFlag(true)).finally(getGreeting());
   }
 
   return (
@@ -113,7 +113,7 @@ function App() {
         <Box sx={{display: 'flex', flexDirection: 'row'}} >
           <Login /> <Logout />
         </Box>
-        <Navigation getGreeting={getGreetingEvent} refreshGreetings={refreshGreetings} />
+        <Navigation isRefreshedFlag={isRefreshedFlag} getGreeting={getGreetingEvent} refreshGreetings={refreshGreetings} />
         <Greeting greeting={greeting} />
         <footer>
           <p>Made with <FavoriteIcon className="heart" /> by Lauri Niskanen</p>
