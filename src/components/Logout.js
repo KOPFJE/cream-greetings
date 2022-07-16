@@ -4,7 +4,8 @@ const clientID = "763523850373-1tddmg1gmu1mc6imepsrqmui72pga934.apps.googleuserc
 
 const Logout = (props) => {
     const onSuccess = () => {
-        console.log("Log out successfull!");
+        console.log("Log out successful!");
+        
     }
 
     return(
