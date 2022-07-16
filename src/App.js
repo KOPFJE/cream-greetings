@@ -86,8 +86,12 @@ function App() {
     }
   }
 
-  const getGreeting = (e) => {
+  const getGreetingEvent = (e) => {
     e.preventDefault();
+    getGreeting();
+  }
+
+  const getGreeting = () => {
     const greet = greetingList[Math.floor(Math.random()  * greetingList.length)];
     const adjective = adjectivesList[Math.floor(Math.random()  * adjectivesList.length)];
     const object = objectsList[Math.floor(Math.random()  * objectsList.length)];
@@ -109,7 +113,7 @@ function App() {
         <Box sx={{display: 'flex', flexDirection: 'row'}} >
           <Login /> <Logout />
         </Box>
-        <Navigation getGreeting={getGreeting} refreshGreetings={refreshGreetings} />
+        <Navigation getGreeting={getGreetingEvent} refreshGreetings={refreshGreetings} />
         <Greeting greeting={greeting} />
         <footer>
           <p>Made with <FavoriteIcon className="heart" /> by Lauri Niskanen</p>
