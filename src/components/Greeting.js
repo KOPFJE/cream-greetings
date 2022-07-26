@@ -4,7 +4,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 const Greeting = (props) => {
     const copyGreeting = (e) => {
         e.preventDefault();
-        navigator.clipboard.writeText(props.greeting);
+        navigator.clipboard.writeText("/p " + props.greeting);
     }
     if(props.greeting === "") return(
         <Box>
