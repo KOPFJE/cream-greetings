@@ -1,38 +1,35 @@
 import Navigation from './components/Navigation';
 import Greeting from './components/Greeting';
-import Login from './components/Login';
-import Logout from './components/Logout';
-import { useEffect, useState } from "react";
-import { Typography, Box } from '@mui/material';
+import { useState } from "react";
+import { Typography, Box, Button } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { gapi } from 'gapi-script';
+import { useGoogleLogin } from '@react-oauth/google';
+
 import axios from 'axios';
 
-const CLIENT_ID = "763523850373-1tddmg1gmu1mc6imepsrqmui72pga934.apps.googleusercontent.com";
-const API_KEY = "AIzaSyCWJPcv9W87PFGe093DCz6mCQ7VVOSANnM";
 const SCOPES = "https://www.googleapis.com/auth/documents.readonly";
 
 
 
-function App() { 
+function App(clientID) { 
   const [greetingList, setGreetingList] = useState([]);
   const [adjectivesList, setAdjectivesList] = useState([]);
   const [objectsList, setObjectsList] = useState([]);
   const [greeting, setGreeting] = useState("");
   const [isRefreshedFlag, setIsRefreshedFlag] = useState(false);
-
-  useEffect(() => {
-    const start = () => {
-      gapi.client.init({
-        apiKey: API_KEY,
-        clientId: CLIENT_ID,
-        scope: SCOPES
-      })
-    };
-    gapi.load('client:auth2', start);
-  });        
+  const [aToken, setAToken] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      setAToken(tokenResponse.access_token);
+      setIsLoggedIn(!isLoggedIn)
+      console.log(tokenResponse);
+    },
+    onError: (error) => console.log(error),
+    scope: SCOPES
+  });
 
   const getFile = async () => {
     let isWhichHeading = 0;
@@ -40,9 +37,9 @@ function App() {
       const greetings = [];
       const adjectives = [];
       const objects = [];
-      const atoken = gapi.auth.getToken().access_token;
+      console.log(aToken);
       const data = await axios.get(`https://docs.googleapis.com/v1/documents/1F3gsZxBq1aztYDNZgH6MZWmRD2luPmb5WdaJVDwcF9M`, 
-        { headers: { "Authorization" : `Bearer  ${atoken}` }}).then(res => res.data);
+        { headers: { "Authorization" : `Bearer  ${aToken}` }}).then(res => res.data);
       data.body.content.map((row, index) => { 
         if(index !== 0) {
           let rowText = row.paragraph.elements[0].textRun.content;
@@ -110,7 +107,7 @@ function App() {
       <Box>
         <Typography variant="h2">Creamy greetings</Typography>
         <Box sx={{display: 'flex', flexDirection: 'row'}} >
-          <Login /> <Logout />
+          {isLoggedIn ? <Button onClick={login}>Change Google account</Button> : <Button onClick={login}>Login with Google</Button> }
         </Box>
         <Navigation isRefreshedFlag={isRefreshedFlag} getGreeting={getGreetingEvent} refreshGreetings={refreshGreetings} />
         <Greeting greeting={greeting} />
